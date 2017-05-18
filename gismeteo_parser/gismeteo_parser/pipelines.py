@@ -4,6 +4,7 @@
 #
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
+from datetime import *
 
 import sqlite3
 from os import path
@@ -26,6 +27,11 @@ class SQLiteStorePipeline(object):
 
     def process_item(self, item, spider):
         try:
+            date = datetime.now()
+            date = str(date)
+            date = date[:10]
+            item['DATE'] = date
+
             self.conn.execute(''
                               'INSERT INTO db VALUES(?,?, ?,?,?, ?,?,?,?,?,?, ?,?,?,?,?,?, ?,?,?,?,?,?, ?,?,?,?,?,?)',
                                 (
