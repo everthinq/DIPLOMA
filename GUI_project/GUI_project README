@@ -1,0 +1,7 @@
+This code needs gismeteo.db file in the root folder. Without database it would not work.
+
+By running gui.pyw you can create *.ARFF file. An *.ARFF (Attribute-Relation File Format) file is an ASCII text file that describes a list of instances sharing a set of attributes (http://www.cs.waikato.ac.nz/ml/weka/arff.html). 
+
+This files needs to forecast temperature in any city you want. But you need to stash your database with more and more data for inrease the accurate rate.
+
+After creating *.ARFF file you need to open WEKA and go for the forecast tab, check temp attribute, set number of days for forecast and click start and WEKA returns dates with forecasted temperature. 
