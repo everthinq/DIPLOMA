@@ -1,6 +1,6 @@
 These projects needs to forecasting temperature with WEKA.
 
-First thing you'll need to do is install WEKA. WEKA using machine learning algorithms for train forecasting models. You can find WEKA installer (for Windows) in intall folder. WEKA written in Java and thats why WEKA needs Java Virtual Machine.
+First thing you'll need to do is install WEKA. WEKA using machine learning algorithms for train forecasting models. You can find link for WEKA installers in intall folder. WEKA written in Java and thats why WEKA needs Java Virtual Machine.
 
 Second thing is parsing "real" weather data from gismeteo using gismeteo_parser written in scrapy asynchronous framework. For "real" weather data you'll need to run main.py in gismeteo_parser at 23:30PM until 23:55PM. Also you need to stash your weather data for couple of days\moths\years for making more accurate temperature forecast.
 
