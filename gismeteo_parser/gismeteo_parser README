@@ -1,0 +1,16 @@
+Using scrapy framework for m.gismeteo.com parsing
+
+This code parses weather from all Moldova cities (e.g. http://m.gismeteo.com/weather/14490/detailday/)
+
+gismeteo_parser needs (if your OS is Windows):
+python-2.7.13.msi
+lxml-3.5.0.win32-py2.7.exe
+Twisted-15.0.0.win32-py2.7.msi
+pip install scrapy
+pip install pypiwin32
+
+Then you need to run main.py in gismeteo_parser folder and parser starts downloading the Moldova cities weather. After that pipelines.py creates a database folder and gismeteo.db file with data in it. You can open gismeteo.db if you'll install DB Browser for SQLite.
+
+Moldova can be easily replaced by another country. You need to go in gismeteo_spider.py and change URL in start_urls array (e.g. for Russia: start_urls = ['http://m.gismeteo.com/citysearch/districts/156/'])
+
+After changing start_urls array you can run main.py and get cities weather from another country.

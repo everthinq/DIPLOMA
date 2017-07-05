@@ -7,7 +7,7 @@
 from datetime import *
 
 import sqlite3
-from os import path
+import os
 
 from scrapy import signals
 from scrapy.xlib.pydispatch import dispatcher
@@ -18,9 +18,12 @@ from scrapy.xlib.pydispatch import dispatcher
 #        return item
 
 class SQLiteStorePipeline(object):
-    filename = '/home/everthinq/Desktop/DIPLOMA/database/gismeteo.db'
+    filename = '../../database/gismeteo.db'
 
     def __init__(self):
+        if not os.path.isdir('../../database/'):
+            os.mkdir('../../database/')
+
         self.conn = None
         dispatcher.connect(self.initialize, signals.engine_started)
         dispatcher.connect(self.finalize, signals.engine_stopped)
@@ -33,22 +36,22 @@ class SQLiteStorePipeline(object):
             item['DATE'] = date
 
             self.conn.execute(''
-                              'INSERT INTO db VALUES(?,?, ?,?,?, ?,?,?,?,?,?, ?,?,?,?,?,?, ?,?,?,?,?,?, ?,?,?,?,?,?)',
-                                (
-                                    item['URL'], item['DATE'],
-                                    item['COUNTRY'], item['DISTRICT'], item['CITY'],
-                                    item['NIGHT_TEMP'], item['NIGHT_FEELS'], item['NIGHT_WIND'], item['NIGHT_PRESSURE'], item['NIGHT_HUMIDITY'], item['NIGHT_geoCONDITIONS'],
-                                    item['MORNING_TEMP'], item['MORNING_FEELS'], item['MORNING_WIND'], item['MORNING_PRESSURE'], item['MORNING_HUMIDITY'], item['MORNING_geoCONDITIONS'],
-                                    item['DAY_TEMP'], item['DAY_FEELS'], item['DAY_WIND'], item['DAY_PRESSURE'], item['DAY_HUMIDITY'], item['DAY_geoCONDITIONS'],
-                                    item['EVENING_TEMP'], item['EVENING_FEELS'], item['EVENING_WIND'], item['EVENING_PRESSURE'], item['EVENING_HUMIDITY'], item['EVENING_geoCONDITIONS']
-                                )
-                              )
+            'INSERT INTO db VALUES(?,?, ?,?,?, ?,?,?,?,?,?, ?,?,?,?,?,?, ?,?,?,?,?,?, ?,?,?,?,?,?)',
+            (
+                item['URL'], item['DATE'],
+                item['COUNTRY'], item['DISTRICT'], item['CITY'],
+                item['NIGHT_TEMP'], item['NIGHT_FEELS'], item['NIGHT_WIND'], item['NIGHT_PRESSURE'], item['NIGHT_HUMIDITY'], item['NIGHT_geoCONDITIONS'],
+                item['MORNING_TEMP'], item['MORNING_FEELS'], item['MORNING_WIND'], item['MORNING_PRESSURE'], item['MORNING_HUMIDITY'], item['MORNING_geoCONDITIONS'],
+                item['DAY_TEMP'], item['DAY_FEELS'], item['DAY_WIND'], item['DAY_PRESSURE'], item['DAY_HUMIDITY'], item['DAY_geoCONDITIONS'],
+                item['EVENING_TEMP'], item['EVENING_FEELS'], item['EVENING_WIND'], item['EVENING_PRESSURE'], item['EVENING_HUMIDITY'], item['EVENING_geoCONDITIONS']
+            )
+                            )
         except:
             print 'Failed to insert item'
         return item
 
     def initialize(self):
-        if path.exists(self.filename):
+        if os.path.exists(self.filename):
             self.conn = sqlite3.connect(self.filename)
         else:
             self.conn = self.create_table(self.filename)

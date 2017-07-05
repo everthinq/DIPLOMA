@@ -8,18 +8,19 @@ class gismeteo_parser(scrapy.Spider):
 
 
     def parse(self, response): # overrided parse method for recursive requests
-        urls = response.xpath('//li[@class = "catalog__item"]/a/@href').extract() #list of urls
+        urls = response.xpath('//li[@class = "catalog__item"]/a/@href').extract() #list of districts urls
 
-        district = response.xpath('/html/body/div[1]/div[1]/span/span/text()').extract()
+        district_name = response.xpath('/html/body/div[1]/div[1]/span/span/text()').extract()
 
         for i in xrange(0, len(urls)):
-            next_page = response.urljoin(urls[i])
+            district_url = response.urljoin(urls[i])
 
-            if 'weather' in next_page:
-                next_page += 'detailday/'
-                yield scrapy.Request(next_page, callback = self.parse_item, meta = {'district': district[0]})
+            if 'weather' in district_url:
+                district_url += 'detailday/'
+                yield scrapy.Request(district_url,
+                                     callback = self.parse_item, meta = {'district': district_name[0]})
 
-            yield scrapy.Request(next_page, callback = self.parse)
+            yield scrapy.Request(district_url, callback = self.parse)
 
 
     def parse_item(self, response): # parse items from e.g. http://m.gismeteo.com/weather/14490/detailday/
